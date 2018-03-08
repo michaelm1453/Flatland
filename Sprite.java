@@ -7,20 +7,22 @@ import java.io.IOException;
 import java.io.*;
 import javax.imageio.ImageIO;
 import java.awt.Color;
-import java.awt.image.Raster;
 
-//More thoughts
-//I'm going to need a left border, right border, top border, bottom border
-//This way, any direction it's going, it can test along the border to see if anything it touches is black. 
 public class Sprite
 {
-    private int dx; private int dy; private int x = 435; private int y= 268;
+    private int dx; private int dy; private int x = 436; private int y= 268;
+    private int defaultx = 435; private int defaulty = 268;
     //dx and dy will be for the rate the sprite is moving
     //x and y are the position of the thing
     private Image image;
     private String typeChar = "";
     private ImageIcon sprite;
     private int[][] arr;
+    private boolean movingLeft = false;
+    private boolean movingUp = false;
+    private boolean movingDown = false;
+    private boolean movingRight = false;
+    private int width; private int height;
     
     public Sprite(String type)
     {
@@ -32,31 +34,46 @@ public class Sprite
     {
         sprite = new ImageIcon(filePath);
         image = sprite.getImage();
+        width = sprite.getIconWidth();
+        height = sprite.getIconHeight();
         x = x1; y = y1;
     }
     
     
     public void move()
     {
-        if(x >0 && x < 858) //as long as sprite stays within the x-boundaries, he can move
-            x += dx;
-        else
-        {
-            if(x == 0) //since the sprite will move 1 more and then be stuck, he gets put back in the field of play
-                x++;
-            else if(x == 858)
-                x --;
-        }    
-              
-        if(y > 0 && y < 515)
-            y += dy;
-        else
-        {
-            if(y==1)
-                y ++;
-            else if(y == 515)
+        if(movingRight){
+            if(x+width >= 898)
+                x = 897-width;
+            else
+                x+= dx;
+            if(Pixel.getPixel(x+width,y))
+                x--;
+        }
+        if(movingDown){
+            if(y+height >= 580)
+                y = 578-height;
+            else
+                y += dy;
+            if(Pixel.getPixel(x,y+height))
                 y--;
-        }  
+        }
+        if(movingLeft) {
+            if(x <= 0)
+                x = 1;
+            else
+                x += dx;
+            if(Pixel.getPixel(x,y))
+                x++;
+        }
+        if(movingUp){
+            if(y <= 0)
+                y = 1;
+            else
+                y += dy;
+            if(Pixel.getPixel(x,y))
+                y++;
+        }
           
     }
     /*General getters
@@ -77,29 +94,23 @@ public class Sprite
          * We have different images, and then depending on the x/y coordinate, they switch, giving the illusion that it's walking
          */
         if (key == KeyEvent.VK_LEFT) {
-            if(Pixel.getPixel(x-1, y))
-                dx = -1;
-            else
-            {
-                x++;
-                dx = 0;
-            }
-            
-            if(getX() %2 ==0) 
+            dx=-1;
+            movingLeft = true;
+            movingRight = false;
+            movingUp = false;
+            movingDown = false;           
+            if(x %2 ==0) 
                 createSprite("Images//" + typeChar + "//left walk.png", x, y);
-            else if(getX() % 2 ==1)
+            else if(x % 1 == 0)
                 createSprite("Images//" + typeChar + "//left walk 2.png", x, y);           
         }
 
         if (key == KeyEvent.VK_RIGHT) {
-            if(Pixel.getPixel(x+1, y))
-                dx = 1;
-            else
-            {
-                x--;
-                dx = 0;
-                
-            }
+            dx=1;
+            movingLeft = false;
+            movingRight = true;
+            movingUp = false;
+            movingDown = false;
             if(x % 2 ==0)
                 createSprite("Images//" + typeChar + "//right walk.png", x, y);
             else if(x% 1 ==0)
@@ -107,13 +118,11 @@ public class Sprite
         }
 
         if (key == KeyEvent.VK_UP) {
-            if(Pixel.getPixel(x, y-1))
-                dy = -1;
-            else
-            {
-                y++;
-                dy = 0;
-            }
+            dy = -1;
+            movingLeft = false;
+            movingRight = false;
+            movingUp = true;
+            movingDown = false;
             if(y % 2 == 0)
                 createSprite("Images//" + typeChar + "//back walk 1.png", x, y);
             else if(y % 1 == 0)
@@ -122,14 +131,12 @@ public class Sprite
         }
 
         if (key == KeyEvent.VK_DOWN) {
-            if(Pixel.getPixel(x, y+1))
-                dy = 1;
-            else
-            {
-                y--;
-                dy = 0;
-                
-            }
+            movingLeft = false;
+            movingRight = false;
+            movingUp = false;
+            movingDown = true;
+            dy = 1;
+
             if(y% 2 == 0)
                 createSprite("Images//" + typeChar + "//front walk 1.png", x, y);
             else if(y % 1 == 0)

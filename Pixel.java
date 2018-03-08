@@ -14,18 +14,15 @@ public class Pixel
             f = new File("skeleton.png");
             img = ImageIO.read(f);
             p = img.getRGB(x,y);
-            //img.setRGB(x,y, -1237890);
-            System.out.println("X:" + x + "Y:" + y);
-            System.out.println(p);
         }
         catch(IOException e){
             System.out.println(e);
         }
 
         if(p < -1)
-            return false;
-        else
             return true;
+        else
+            return false;
 
     }
 
