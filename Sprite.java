@@ -18,21 +18,21 @@ public class Sprite
     private String typeChar = "";
     private ImageIcon sprite;
     private int[][] arr;
-    private boolean movingLeft = false;
+    private boolean movingLeft = false; //these variables will be used so the program knows what point to test for collisions with a border
     private boolean movingUp = false;
     private boolean movingDown = false;
     private boolean movingRight = false;
-    private int width; private int height;
+    private int width; private int height; //width and height of the image, will be used to change what corner to use to test for collisions
     
     public Sprite(String type)
     {
         typeChar = type;
-        createSprite("Images//" + typeChar + "//Idle.png", x, y);
+        createSprite("Images//" + typeChar + "//Idle.png", x, y); //Creates a sprite of the given image
     }
 
     private void createSprite(String filePath, int x1, int y1) //creates a sprite at a given location, using a certain picture
     {
-        sprite = new ImageIcon(filePath);
+        sprite = new ImageIcon(filePath); 
         image = sprite.getImage();
         width = sprite.getIconWidth();
         height = sprite.getIconHeight();
@@ -40,30 +40,37 @@ public class Sprite
     }
     
     
+    /*Controls the motion for the sprite, tests  for collisions between the sprite and walls
+     * as well as for collisions between sprite and objects in the background. 
+     */
     public void move()
     {
+        if(y<=0) //Prevents the little guy from going off screen no matter what
+            y = 1;
+        if (x<=0)
+            x = 1;    
         if(movingRight){
             if(x+width >= 898)
-                x = 897-width;
+                x = 897-width;//tests for right JFrame border
             else
-                x+= dx;
-            if(Pixel.getPixel(x+width,y))
+                x+= dx;//otherwise, keep moving
+            if(Pixel.getPixel(x+width,y)|| Pixel.getPixel(x+width, y + height)) //if the next pixel is black (from the skeleton), go back to the previous spot
                 x--;
         }
         if(movingDown){
             if(y+height >= 580)
-                y = 578-height;
+                y = 578-height; //tests for bottom JFrame border
             else
-                y += dy;
-            if(Pixel.getPixel(x,y+height))
+                y += dy; //ditto as for movingRight
+            if(Pixel.getPixel(x,y+height) || Pixel.getPixel(x+width, y + height))
                 y--;
         }
-        if(movingLeft) {
+        if(movingLeft) {//all the similar stuff as to movingRight and Down
             if(x <= 0)
                 x = 1;
             else
                 x += dx;
-            if(Pixel.getPixel(x,y))
+            if(Pixel.getPixel(x,y)||Pixel.getPixel(x,y+height))
                 x++;
         }
         if(movingUp){
@@ -71,7 +78,7 @@ public class Sprite
                 y = 1;
             else
                 y += dy;
-            if(Pixel.getPixel(x,y))
+            if(Pixel.getPixel(x,y)||Pixel.getPixel(x+width,y))
                 y++;
         }
           
@@ -85,13 +92,10 @@ public class Sprite
 
     //Different arrow keys move things
     public void keyPressed(KeyEvent e) {
-
-        int key = e.getKeyCode();
-        int centerx = x - (sprite.getIconWidth()/2);
-        int centery = y - (sprite.getIconHeight()/2);
-        
+        int key = e.getKeyCode();        
         /*This portion deals with the movement of the little sprite.
-         * We have different images, and then depending on the x/y coordinate, they switch, giving the illusion that it's walking
+         * We have different images, and then depending on the (x,y) coordinate, they switch, giving the illusion that it's walking
+         * The booleans moving<Direction> are changed in this method to see what point to test for collisions
          */
         if (key == KeyEvent.VK_LEFT) {
             dx=-1;

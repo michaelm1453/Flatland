@@ -47,6 +47,9 @@ public class Frame extends JPanel implements ActionListener
         Toolkit.getDefaultToolkit().sync(); //syncs the graphics with the Frame
     }
     
+    /*This method takes care of the actual display using graphics. 
+     * This is where you should add new things.
+     */
     public void draw(Graphics g)
     {
         ImageIcon background = new ImageIcon("Images//background.jpg");

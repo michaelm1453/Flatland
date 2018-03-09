@@ -11,15 +11,15 @@ public class Pixel
         int p = 0;
 
         try{
-            f = new File("skeleton.png");
+            f = new File("skeleton.png"); //reads the skeleton file
             img = ImageIO.read(f);
-            p = img.getRGB(x,y);
+            p = img.getRGB(x,y); //gets the color for the pixel
         }
         catch(IOException e){
             System.out.println(e);
         }
 
-        if(p < -1)
+        if(p < -1) //-1 is the code for white, so anything less than that is no walking zone
             return true;
         else
             return false;

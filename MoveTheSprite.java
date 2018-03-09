@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 
 import java.util.Scanner;
 
+//Welcome to this mess. 
 public class MoveTheSprite extends JFrame
 {
     public static String typeOfChar = "";
@@ -27,6 +28,7 @@ public class MoveTheSprite extends JFrame
     {
         initUI(charact);
     }
+    
     private void initUI(String character)
     {
         add(new Frame(character));
@@ -40,24 +42,25 @@ public class MoveTheSprite extends JFrame
     public void MainMenu()
     {
         JPanel cp = (JPanel) getContentPane();
-        setSize(900,600);
-        setResizable(false);
+        setSize(900,600); //creates a JFrame for the menu
+        setResizable(false); //want to make it a different size? TOO BAD
         setLocationRelativeTo(null);
         cp.setLayout(new GridLayout()); //gets it to line up in the center
         
-        JButton button = new JButton();
-        button.setBounds(100,100,100,100);
-        button.setText("circle");
-        ImageIcon circle = new ImageIcon("Images//circle//Idle.png");
+        JButton button = new JButton(); //adds a new button
+        button.setBounds(100,100,100,100); //not gonna lie I don't think this does anything right now
+        button.setText("circle");//labels it!
+        ImageIcon circle = new ImageIcon("Images//circle//Idle.png"); //sets the logo for the sprite
         button.setIcon(circle);
         button.addActionListener(new ActionListener() {
                 public void actionPerformed(ActionEvent e){
-                    typeOfChar = button.getText();
-                    TestMethod(cp, typeOfChar);
+                    typeOfChar = button.getText();//gets the type of character
+                    TestMethod(cp, typeOfChar); //now starts the moving part
                 }
             });
-        cp.add(button);
+        cp.add(button);  //adds the button to the menu
          
+        //Now basically the same for the next five buttons
         JButton button1 = new JButton();
         button1.setText("square");
         ImageIcon square = new ImageIcon("Images//square//Idle.png");
@@ -119,11 +122,15 @@ public class MoveTheSprite extends JFrame
         cp.add(button5);
     }
     
+    /*So what does this method do, you might ask? 
+     * Notice how it is called in each actionPerformed() above; 
+     * This is for clearing the menu, disposes the menu, and creating the JFrame to move the small dude
+     */
     private void TestMethod(JPanel panel, String typeOfChar)
     {
         panel.removeAll();
         panel.updateUI();
-        dispose();
+        dispose(); //clears anad gets rid of the meny
         EventQueue.invokeLater(new Runnable()
         {
             @Override
