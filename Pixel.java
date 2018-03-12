@@ -5,19 +5,21 @@ import javax.imageio.ImageIO;
 
 public class Pixel
 {
-    public static boolean getPixel(int x, int y){
-        BufferedImage img = null;
-        File f = null;
-        int p = 0;
-
+    private int p = 0;
+    BufferedImage img;
+    File f;
+    public Pixel(String file){
         try{
-            f = new File("skeleton.png"); //reads the skeleton file
+            f = new File(file);
             img = ImageIO.read(f);
-            p = img.getRGB(x,y); //gets the color for the pixel
         }
         catch(IOException e){
-            System.out.println(e);
+            System.out.println("OOPS");
         }
+        
+    }
+    public boolean getPixel(int x, int y){
+        p = img.getRGB(x,y); //gets the color for the pixel
 
         if(p < -1) //-1 is the code for white, so anything less than that is no walking zone
             return true;

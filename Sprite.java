@@ -23,11 +23,13 @@ public class Sprite
     private boolean movingDown = false;
     private boolean movingRight = false;
     private int width; private int height; //width and height of the image, will be used to change what corner to use to test for collisions
+    private Pixel pixels;
     
     public Sprite(String type)
     {
         typeChar = type;
         createSprite("Images//" + typeChar + "//Idle.png", x, y); //Creates a sprite of the given image
+        pixels = new Pixel("skeleton.png");
     }
 
     private void createSprite(String filePath, int x1, int y1) //creates a sprite at a given location, using a certain picture
@@ -45,41 +47,43 @@ public class Sprite
      */
     public void move()
     {
-        if(y<=0) //Prevents the little guy from going off screen no matter what
-            y = 1;
-        if (x<=0)
-            x = 1;    
         if(movingRight){
-            if(x+width >= 898)
-                x = 897-width;//tests for right JFrame border
-            else
-                x+= dx;//otherwise, keep moving
-            if(Pixel.getPixel(x+width,y)|| Pixel.getPixel(x+width, y + height)) //if the next pixel is black (from the skeleton), go back to the previous spot
+            if(x+width <= 898)
+                x += dx;
+            else if(pixels.getPixel(x+width,y)|| pixels.getPixel(x+width, y + height)) //if the next pixel is black (from the skeleton), go back to the previous spot
                 x--;
         }
         if(movingDown){
-            if(y+height >= 580)
-                y = 578-height; //tests for bottom JFrame border
-            else
-                y += dy; //ditto as for movingRight
-            if(Pixel.getPixel(x,y+height) || Pixel.getPixel(x+width, y + height))
-                y--;
-        }
-        if(movingLeft) {//all the similar stuff as to movingRight and Down
-            if(x <= 0)
-                x = 1;
-            else
-                x += dx;
-            if(Pixel.getPixel(x,y)||Pixel.getPixel(x,y+height))
-                x++;
-        }
-        if(movingUp){
-            if(y <= 0)
-                y = 1;
+            if(y <= 598){
+                if(pixels.getPixel(x,y)||pixels.getPixel(x+width,y))
+                    y--;
+                else    
+                    y += dy;
+            }
             else
                 y += dy;
-            if(Pixel.getPixel(x,y)||Pixel.getPixel(x+width,y))
-                y++;
+        }
+        if(movingLeft) {//all the similar stuff as to movingRight and Down
+            if(x >= 1){
+                if(pixels.getPixel(x,y)||pixels.getPixel(x,y+height))
+                    x++;
+                else    
+                    x += dx;
+            }
+            else
+                x += dx;
+        }
+        if(movingUp){
+            if(y >= 1){
+                if(pixels.getPixel(x,y)||pixels.getPixel(x+width,y))
+                    y++;
+                else    
+                    y += dy;
+            }
+            else
+                y += dy;
+           
+
         }
           
     }
