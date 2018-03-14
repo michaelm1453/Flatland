@@ -56,7 +56,8 @@ public class Frame extends JPanel implements ActionListener
         Image background1 = background.getImage();
         Graphics2D graphix = (Graphics2D) g;
         graphix.drawImage(background1, 0,0, this);
-        graphix.drawImage(sprite.getImg(), sprite.getX(), sprite.getY(), this); //draws the sprite (this will be really helpful later)        
+        graphix.drawImage(sprite.getImg(), sprite.getX(), sprite.getY(), this); //draws the sprite (this will be really helpful later)
+                    
     }
     
     @Override

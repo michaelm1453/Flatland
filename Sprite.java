@@ -48,40 +48,49 @@ public class Sprite
     public void move()
     {
         if(movingRight){
-            if(x+width <= 898)
+            if(x+width <= 898 && x+width >=0){
                 x += dx;
-            else if(pixels.getPixel(x+width,y)|| pixels.getPixel(x+width, y + height)) //if the next pixel is black (from the skeleton), go back to the previous spot
-                x--;
+                if(pixels.getPixel(x+width,y)|| pixels.getPixel(x+width, y + height)) //if the next pixel is black (from the skeleton), go back to the previous spot
+                    x--;
+            }
+            else{
+                if(!pixels.getPixel(899, y)||!pixels.getPixel(899, y+height))
+                    x+=dx;
+            }
         }
         if(movingDown){
-            if(y <= 598){
-                if(pixels.getPixel(x,y)||pixels.getPixel(x+width,y))
-                    y--;
-                else    
-                    y += dy;
-            }
-            else
+            
+            if(y+height <= 597 && y+height >= 0){
                 y += dy;
+                if(pixels.getPixel(x+width,y+height)|| pixels.getPixel(x, y + height)) //if the next pixel is black (from the skeleton), go back to the previous spot
+                    y--;
+            }
+            else{
+                if(!pixels.getPixel(x, 598) || !pixels.getPixel(x+width,598))
+                    x+=dx;
+            }
         }
         if(movingLeft) {//all the similar stuff as to movingRight and Down
-            if(x >= 1){
-                if(pixels.getPixel(x,y)||pixels.getPixel(x,y+height))
-                    x++;
-                else    
-                    x += dx;
-            }
-            else
+            if(x > 0 && x <=898){
                 x += dx;
+                if(pixels.getPixel(x,y)|| pixels.getPixel(x, y + height)) //if the next pixel is black (from the skeleton), go back to the previous spot
+                    x++;
+            }
+            else{
+                if(!pixels.getPixel(0, y) || ! pixels.getPixel(0, y +height))
+                    x += dx;
+                }
         }
         if(movingUp){
-            if(y >= 1){
-                if(pixels.getPixel(x,y)||pixels.getPixel(x+width,y))
-                    y++;
-                else    
-                    y += dy;
-            }
-            else
+            if(y >= 2 && y<=597){      
                 y += dy;
+                if(pixels.getPixel(x+width,y)|| pixels.getPixel(x, y)) //if the next pixel is black (from the skeleton), go back to the previous spot
+                    y++;
+            }
+            else{
+                if(!pixels.getPixel(x+width, 0) || !pixels.getPixel(x,0))
+                    y+=dy;
+            }
            
 
         }
