@@ -33,13 +33,24 @@ public class WeightedRNG.java
         setLocationRelativeTo(null);
         cp.setLayout(new GridLayout());
         
+        JLabel label1 = new JLabel("Competitor 1:");
         JTextField name1 = new JTextField(12);
+        cp.add(label1);
         cp.add(name1);
+        
+        JLabel label2 = new JLabel("Percentage for competitor 1?");
         JTextField percentage1 = new JTextField(12);
+        cp.add(label2);
         cp.add(percentage1);
+        
+        JLabel label3 = new JLabel("Competitor 2:");
         JTextField name2 = new JTextField(12);
+        cp.add(label3);
         cp.add(name2);
+        
+        JLabel label4 = new JLabel("Percentage for competitor 2?");
         JTextField percentage2 = new JTextField(12);
+        cp.add(label4);
         cp.add(percentage2);
         
         JButton calculate = new JButton();
