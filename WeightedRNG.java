@@ -13,9 +13,10 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
-import java.Lang.NumberFormatException;
+import javax.swing.JLabel;
+import java.lang.NumberFormatException;
 
-public class WeightedRNG.java
+public class WeightedRNG extends JFrame
 {
     public static void main (String[] args){
         Random rand = new Random();
@@ -26,7 +27,7 @@ public class WeightedRNG.java
         else
             System.out.println("Aeneas wins!");
     }
-    public static void Generator{
+    public void Generator(){
         JPanel cp = (JPanel) getContentPane();
         setSize(900,600);
         setResizable(false); 
@@ -70,7 +71,7 @@ public class WeightedRNG.java
                 {}
                 
             }
-        }
+        });
         
         JButton reset = new JButton();
         reset.setText("RESET");
@@ -82,7 +83,7 @@ public class WeightedRNG.java
                 percentage2.setText("");
                 calculate.setText("Calculate");
             }
-        }
+        });
                
     }
 
