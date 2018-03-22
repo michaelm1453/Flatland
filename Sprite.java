@@ -23,7 +23,12 @@ public class Sprite
     private boolean movingDown = false;
     private boolean movingRight = false;
     private int width; private int height; //width and height of the image, will be used to change what corner to use to test for collisions
+    private boolean talkNow = false;
     private Pixel pixels;
+    public static int LOVE_SCORE = 0;
+    public static int MONEY_SCORE = 0;
+    public static int EDUCATION_SCORE = 0;
+    public static boolean advance;
     
     public Sprite(String type)
     {
@@ -41,6 +46,9 @@ public class Sprite
         x = x1; y = y1;
     }
     
+    static void foo() throws IOException {
+        throw new IOException("your message");
+    }
     
     /*Controls the motion for the sprite, tests  for collisions between the sprite and walls
      * as well as for collisions between sprite and objects in the background. 
@@ -48,49 +56,36 @@ public class Sprite
     public void move()
     {
         if(movingRight){
-            if(x+width <= 898 && x+width >=0){
-                x += dx;
+            if(x+width <= 898){
                 if(pixels.getPixel(x+width,y)|| pixels.getPixel(x+width, y + height)) //if the next pixel is black (from the skeleton), go back to the previous spot
                     x--;
-            }
-            else{
-                if(!pixels.getPixel(899, y)||!pixels.getPixel(899, y+height))
-                    x+=dx;
+                else    
+                    x += dx;
             }
         }
         if(movingDown){
-            
-            if(y+height <= 597 && y+height >= 0){
-                y += dy;
+            if(y+height <= 550){
                 if(pixels.getPixel(x+width,y+height)|| pixels.getPixel(x, y + height)) //if the next pixel is black (from the skeleton), go back to the previous spot
                     y--;
-            }
-            else{
-                if(!pixels.getPixel(x, 598) || !pixels.getPixel(x+width,598))
-                    x+=dx;
+                else
+                    y += dy;
             }
         }
         if(movingLeft) {//all the similar stuff as to movingRight and Down
-            if(x > 0 && x <=898){
-                x += dx;
+            if(x >= 0){
                 if(pixels.getPixel(x,y)|| pixels.getPixel(x, y + height)) //if the next pixel is black (from the skeleton), go back to the previous spot
                     x++;
-            }
-            else{
-                if(!pixels.getPixel(0, y) || ! pixels.getPixel(0, y +height))
+                else
                     x += dx;
-                }
+            }
         }
         if(movingUp){
-            if(y >= 2 && y<=597){      
-                y += dy;
+            if(y >= 0){
                 if(pixels.getPixel(x+width,y)|| pixels.getPixel(x, y)) //if the next pixel is black (from the skeleton), go back to the previous spot
                     y++;
-            }
-            else{
-                if(!pixels.getPixel(x+width, 0) || !pixels.getPixel(x,0))
-                    y+=dy;
-            }
+                else
+                    y += dy;
+            }    
            
 
         }
@@ -100,6 +95,8 @@ public class Sprite
      */
     public int getX(){return x;} 
     public int getY(){return y;}
+    public boolean isTalking() {return talkNow;}
+    public boolean Advance() {return advance;}
     public Image getImg(){return image;}
     public ImageIcon getImgIcn(){return sprite;}
 
@@ -158,6 +155,22 @@ public class Sprite
                 createSprite("Images//" + typeChar + "//front walk 1.png", x, y);
             else if(y % 1 == 0)
                 createSprite("Images//" + typeChar + "//front walk 2.png", x, y);
+        }
+        if (key == KeyEvent.VK_Z)
+        {
+            advance = true;
+            if ((Math.abs(getX() - Frame.getnpc1x()) <= 50) && (Math.abs(getY() - Frame.getnpc1y()) <= 50))
+            {
+                //This is where actual VN conversations take place
+                //System.out.println("IT WORKS!!");
+                if(!talkNow)
+                    advance = false;
+                talkNow = true;
+            }
+        }
+        if(key ==KeyEvent.VK_X)
+        {
+            advance = true;
         }
     }
 

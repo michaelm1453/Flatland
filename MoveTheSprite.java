@@ -1,3 +1,5 @@
+ 
+
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.Container;
@@ -27,6 +29,10 @@ public class MoveTheSprite extends JFrame
     public MoveTheSprite(String charact)//constructor for the level
     {
         initUI(charact);
+    }
+    public MoveTheSprite(String charact, boolean isTalking) //constructor for the talking
+    {
+        System.out.print("IT WORKS");
     }
     
     private void initUI(String character)
